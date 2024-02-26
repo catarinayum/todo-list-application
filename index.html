@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do List</title>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap JavaScript (jQuery and Popper.js are required dependencies) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">yo</div>
+
+    <script type="text/babel">
+      function AllTasks(props) {
+        return (
+          <div>
+            <ul>
+              {props.list.map((tasks) => (
+                <li key={tasks.task}>
+                  <span>{tasks.task}</span>
+                  <button onClick={() => props.onRemoveTask(tasks.task)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-trash"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                      <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      class App extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            tasks: [{ task: "Finish this app......", incomplete: true }],
+            input: "",
+          };
+
+          this.handleAddTask = this.handleAddTask.bind(this);
+          this.handleDeleteTask = this.handleDeleteTask.bind(this);
+          this.updateInput = this.updateInput.bind(this);
+        }
+
+        handleAddTask() {
+          this.setState((currentState) => {
+            if (currentState.input) {
+              return {
+                tasks: currentState.tasks.concat([
+                  { task: currentState.input, incomplete: true },
+                ]),
+                input: "",
+              };
+            }
+          });
+          console.log("Task added!");
+        }
+
+        handleDeleteTask(taskToDelete) {
+          this.setState((currentState) => {
+            return {
+              tasks: currentState.tasks.filter(
+                (task) => task.task !== taskToDelete
+              ),
+            };
+          });
+          console.log("Task deleted!");
+        }
+
+        updateInput(event) {
+          const value = event.target.value;
+          this.setState({ input: value });
+        }
+
+        render() {
+          return (
+            <div>
+              <form class="p-3 mb-2 bg-light text-dark">
+                <h1 class="p-2 text-center">TO DO LIST</h1>
+                <div class="form-group row d-flex justify-content-around">
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Insert new task"
+                      value={this.state.input}
+                      onChange={this.updateInput}
+                    />
+                  </div>
+                  <button
+                    id="button-div"
+                    type="submit"
+                    class="btn btn-primary col-sm-2"
+                    onClick={this.handleAddTask}
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+              <ul
+                class="nav nav-tabs bg-light text-dark"
+                id="myTab"
+                role="tablist"
+              >
+                <li class="nav-item">
+                  <a
+                    class="nav-link active"
+                    id="allTasks-tab"
+                    data-toggle="tab"
+                    href="#allTasks"
+                    role="tab"
+                    aria-controls="allTasks"
+                    aria-selected="true"
+                  >
+                    All
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="completeTasks-tab"
+                    data-toggle="tab"
+                    href="#completeTasks"
+                    role="tab"
+                    aria-controls="completeTasks"
+                    aria-selected="false"
+                  >
+                    Complete
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    id="incompleteTasks-tab"
+                    data-toggle="tab"
+                    href="#incompleteTasks"
+                    role="tab"
+                    aria-controls="incompleteTasks"
+                    aria-selected="false"
+                  >
+                    Incomplete
+                  </a>
+                </li>
+              </ul>
+              <div class="tab-content" id="tabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="allTasks"
+                  role="tabpanel"
+                  aria-labelledby="allTasks-tab"
+                >
+                  <AllTasks
+                    list={this.state.tasks}
+                    onRemoveTask={this.handleDeleteTask}
+                  />
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="completeTasks"
+                  role="tabpanel"
+                  aria-labelledby="completeTasks-tab"
+                >
+                  ...
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="incompleteTasks"
+                  role="tabpanel"
+                  aria-labelledby="incompleteTasks-tab"
+                >
+                  ...
+                </div>
+              </div>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("app"));
+    </script>
+  </body>
+</html>
