@@ -5,14 +5,32 @@ ul {
 }
 form {
   margin: 0px;
+  margin-bottom: 0;
   padding: 0 0 0 0;
 }
+
 button {
-    background: none;
-	color: red;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  background: none;
+  color: red;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.row {
+  padding: 10px;
+}
+
+#myTab {
+  margin: 0 auto;
+}
+
+.nav {
+  padding: 0 30px;
+}
+span.col-7 {
+  display: flex;
+  align-items: center;
 }
