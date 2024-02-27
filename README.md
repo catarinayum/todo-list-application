@@ -2,6 +2,8 @@
 
 ## Overview
 
+![image](https://github.com/catarinayum/todo-list-application/blob/main/app-screenshots.png)
+
 This is a to-do list application built with React.
 
 ## Features
